@@ -1,6 +1,8 @@
 package epsylon;
 
+import epsylon.typecheck.Typechecker;
 import epsylon.ui.MainWindow;
+import epsylon.interfaces.Type;
 import epsylon.parser.Parser;
 import epsylon.ast.Node;
 
@@ -52,8 +54,9 @@ public class Main {
 		return parser.parse();
 	}
 	
-	public static Boolean typecheck(String input) {
-		return false;
+	public static Type typecheck(Node tree) {
+		Typechecker typechecker = new Typechecker();
+		return typechecker.typecheck(tree);
 	}
 	
 	public static String evaulate(String input) {

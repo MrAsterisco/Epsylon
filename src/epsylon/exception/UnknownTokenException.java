@@ -1,4 +1,4 @@
-package epsylon.parser;
+package epsylon.exception;
 
 public class UnknownTokenException extends RuntimeException {
 

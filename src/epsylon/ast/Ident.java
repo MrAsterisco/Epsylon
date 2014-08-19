@@ -22,6 +22,14 @@ public class Ident extends AbsOpExp {
 		result = prime * result + name.hashCode();
 		return result;
 	}
+	
+	@Override
+	public boolean equals(Object obj2) {
+		if (obj2 instanceof Ident) {
+			return ((Ident)obj2).toString().equalsIgnoreCase(this.toString());
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {

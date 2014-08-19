@@ -11,8 +11,11 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import epsylon.Main;
+import epsylon.ast.Node;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,6 +23,8 @@ import java.awt.event.ActionEvent;
 public class MainWindow {
 
 	private JFrame frmEpsylon;
+	
+	private Node parsedTree;
 
 	/**
 	 * Launch the application.
@@ -76,10 +81,6 @@ public class MainWindow {
 		btnEvaluate.setBounds(461, 450, 117, 29);
 		frmEpsylon.getContentPane().add(btnEvaluate);
 		
-		JButton btnTypecheck = new JButton("Typecheck");
-		btnTypecheck.setBounds(350, 450, 117, 29);
-		frmEpsylon.getContentPane().add(btnTypecheck);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(6, 31, 572, 184);
 		frmEpsylon.getContentPane().add(scrollPane);
@@ -87,6 +88,23 @@ public class MainWindow {
 		JTextArea inputArea = new JTextArea();
 		inputArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		scrollPane.setViewportView(inputArea);
+		inputArea.getDocument().addDocumentListener(new DocumentListener() {
+
+	        @Override
+	        public void removeUpdate(DocumentEvent e) {
+	        	parsedTree = null;
+	        }
+
+	        @Override
+	        public void insertUpdate(DocumentEvent e) {
+	        	parsedTree = null;
+	        }
+
+	        @Override
+	        public void changedUpdate(DocumentEvent arg0) {
+	        	parsedTree = null;
+	        }
+	    });
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(6, 254, 572, 184);
@@ -100,7 +118,7 @@ public class MainWindow {
 		btnParse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Main.parse(inputArea.getText());
+					parsedTree = Main.parse(inputArea.getText());
 					outputArea.append("Parser: operation completed successfully.\n");
 				} catch (RuntimeException e2) {
 					outputArea.append("Parse Error: " + e2.getMessage() + "\n");
@@ -109,5 +127,22 @@ public class MainWindow {
 		});
 		btnParse.setBounds(240, 450, 117, 29);
 		frmEpsylon.getContentPane().add(btnParse);
+		
+		JButton btnTypecheck = new JButton("Typecheck");
+		btnTypecheck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (parsedTree == null) {
+					btnParse.doClick();
+				}
+				
+				try {
+					outputArea.append("Typecheck: operation completed successfully. Result type is " + Main.typecheck(parsedTree).toString() + ".\n");
+				} catch (RuntimeException e2) {
+					outputArea.append("Typecheck Error: " + e2.getMessage() + "\n");
+				}
+			}
+		});
+		btnTypecheck.setBounds(350, 450, 117, 29);
+		frmEpsylon.getContentPane().add(btnTypecheck);
 	}
 }

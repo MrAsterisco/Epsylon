@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import epsylon.exception.UnknownTokenException;
 import static epsylon.parser.TokenType.*;
 
 public class Tokenizer implements Iterator<TokenType> {
@@ -47,7 +48,9 @@ public class Tokenizer implements Iterator<TokenType> {
 		map.put("&", STRICT_AND);
 		map.put("|", STRICT_OR);
 		map.put("\\", BACKSLASH);
-	}
+		map.put("true", BOOL_LIT);
+		map.put("false", BOOL_LIT);
+}
 	
 	public Tokenizer(String inputString) {
 		this.scanner = new Scanner(inputString);
@@ -56,7 +59,7 @@ public class Tokenizer implements Iterator<TokenType> {
 	// reads the standard input and skip white spaces
 	private Scanner scanner;
 	// tries to match a sequence of tokens
-	final private Matcher matcher = Pattern.compile("not|-|#|\\(|\\)|\\{|\\}|,|all|in|:|forall|exists|\\[|\\]|\\.\\.|and|or|implies|contains|\\+|\\*|/|\\\\|%|<=|<|>=|>|==|!=|&|\\||(?<IDENT>[a-zA-Z][a-zA-Z0-9]*)|(?<BOOL>(true|false))|(?<NUM>[0-9]+)").matcher("");
+	final private Matcher matcher = Pattern.compile("(?<BOOL>(true|false))|not|-|#|\\(|\\)|\\{|\\}|,|all|in|:|forall|exists|\\[|\\]|\\.\\.|and|or|implies|contains|\\+|\\*|/|\\\\|%|<=|<|>=|>|==|!=|&|\\||(?<IDENT>[a-zA-Z][a-zA-Z0-9]*)|(?<NUM>[0-9]+)").matcher("");
 	// the (inclusive) index of the first character of the portion of region
 	// that still has to be matched
 	private int start;

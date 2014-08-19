@@ -288,7 +288,6 @@ public class Parser {
 			if (tokenizer.hasNext()) {
 				tokenizer.next();
 				exp = parseSet();
-				System.out.println(tokenizer.tokenType() + " " + exp);
 				checkType(TokenType.CURLY_BRA_CLOSE);
 				tokenizer.next();
 				return exp;

@@ -1,5 +1,7 @@
 package epsylon.exception;
 
+import epsylon.interfaces.Type;
+
 public class TypecheckException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
@@ -20,5 +22,9 @@ public class TypecheckException extends RuntimeException {
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
-
+	
+	public TypecheckException(Type expectedType, Type foundType) {
+		this("Expected " + expectedType.toString() + " but found " + foundType.toString());
+	}
+	
 }
