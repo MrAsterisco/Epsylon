@@ -1,13 +1,8 @@
 package epsylon;
 
-import java.awt.EventQueue;
-
-import javax.xml.bind.Marshaller.Listener;
-
 import epsylon.ui.MainWindow;
 import epsylon.parser.Parser;
 import epsylon.ast.Node;
-import epsylon.exception.ParseException;
 
 public class Main {
 

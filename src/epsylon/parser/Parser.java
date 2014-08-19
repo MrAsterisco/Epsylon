@@ -1,8 +1,5 @@
 package epsylon.parser;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import epsylon.ast.*;
 import epsylon.interfaces.Exp;
 import epsylon.exception.*;
@@ -298,7 +295,6 @@ public class Parser {
 			}
 
 		default:
-			System.out.println("Token non valido parseBase");
 			throw new IllegalTokenException(tokenizer.tokenString());
 		}
 	}
@@ -317,7 +313,6 @@ public class Parser {
 			return parseAll();
 		}
 		else {
-			System.out.println("Sono nel parseSet con "+ tokenizer.tokenType());
 			Exp exp1 = parseForallExp();
 			
 			switch (tokenizer.tokenType()) {

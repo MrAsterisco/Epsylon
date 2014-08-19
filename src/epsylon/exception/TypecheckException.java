@@ -1,22 +1,22 @@
 package epsylon.exception;
 
-public class ParseException extends RuntimeException {
+public class TypecheckException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ParseException(String message) {
+	public TypecheckException(String message) {
 		super(message);
 	}
 
-	public ParseException(Throwable cause) {
+	public TypecheckException(Throwable cause) {
 		super(cause);
 	}
 
-	public ParseException(String message, Throwable cause) {
+	public TypecheckException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ParseException(String message, Throwable cause,
+	public TypecheckException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
