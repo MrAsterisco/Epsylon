@@ -2,6 +2,7 @@ package epsylon.ui;
 
 import java.awt.EventQueue;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -19,6 +20,10 @@ import epsylon.ast.Node;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 public class MainWindow {
 
@@ -72,11 +77,6 @@ public class MainWindow {
 		lblOutput.setBounds(6, 227, 96, 16);
 		frmEpsylon.getContentPane().add(lblOutput);
 		
-		JButton btnLoad = new JButton("Load from File");
-		btnLoad.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-		btnLoad.setBounds(648, 6, 117, 20);
-		frmEpsylon.getContentPane().add(btnLoad);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(6, 31, 759, 185);
 		frmEpsylon.getContentPane().add(scrollPane);
@@ -118,6 +118,7 @@ public class MainWindow {
 					outputArea.append("Parser: operation completed successfully.\n");
 				} catch (RuntimeException e2) {
 					outputArea.append("Parse Error: " + e2.getMessage() + "\n");
+					parsedTree = null;
 				}
 			}
 		});
@@ -132,7 +133,9 @@ public class MainWindow {
 				}
 				
 				try {
-					outputArea.append("Typecheck: operation completed successfully. Result type is " + Main.typecheck(parsedTree).toString() + ".\n");
+					if (parsedTree != null) {
+						outputArea.append("Typecheck: operation completed successfully. Result type is " + Main.typecheck(parsedTree).toString() + ".\n");
+					}
 				} catch (RuntimeException e2) {
 					outputArea.append("Typecheck Error: " + e2.getMessage() + "\n");
 				}
@@ -149,7 +152,9 @@ public class MainWindow {
 				}
 				
 				try {
-					outputArea.append("Evaluator: " + Main.evaluate(parsedTree).toString() + ".\n");
+					if (parsedTree != null) {
+						outputArea.append("Evaluator: " + Main.evaluate(parsedTree).toString() + ".\n");
+					}
 				} catch (RuntimeException e2) {
 					outputArea.append("Evaluation Error: " + e2.getMessage() + "\n");
 				}
@@ -157,5 +162,36 @@ public class MainWindow {
 		});
 		btnEvaluate.setBounds(648, 574, 117, 29);
 		frmEpsylon.getContentPane().add(btnEvaluate);
+		
+		JButton btnLoad = new JButton("Load from File");
+		btnLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(null);
+				
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					try {
+						byte[] encoded = Files.readAllBytes(file.toPath());
+						String parsed = new String(encoded, Charset.defaultCharset());
+						inputArea.setText(parsed);
+					} catch (IOException e1) {
+						outputArea.append("Open File error: unable to open the selected file\n");
+					}
+				}
+			}
+		});
+		btnLoad.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
+		btnLoad.setBounds(648, 6, 117, 20);
+		frmEpsylon.getContentPane().add(btnLoad);
+		
+		JButton btnQuit = new JButton("Quit");
+		btnQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnQuit.setBounds(6, 574, 117, 29);
+		frmEpsylon.getContentPane().add(btnQuit);
 	}
 }
