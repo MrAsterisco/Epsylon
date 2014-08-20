@@ -8,7 +8,7 @@ import epsylon.ast.Ident;
 
 public abstract class GenericEnvironment<T> implements Environment<T> {
 
-	public LinkedList<Map<Ident, T>> localEnvs = new LinkedList<>();
+	private LinkedList<Map<Ident, T>> localEnvs = new LinkedList<>();
 
 	protected Map<Ident, T> getCurrentLocalEnv() {
 		return localEnvs.get(0);

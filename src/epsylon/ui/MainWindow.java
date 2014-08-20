@@ -56,7 +56,7 @@ public class MainWindow {
 		frmEpsylon = new JFrame();
 		frmEpsylon.setTitle("Epsylon");
 		frmEpsylon.setResizable(false);
-		frmEpsylon.setBounds(100, 100, 584, 507);
+		frmEpsylon.setBounds(100, 100, 771, 631);
 		frmEpsylon.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEpsylon.getContentPane().setLayout(null);
 		
@@ -74,15 +74,11 @@ public class MainWindow {
 		
 		JButton btnLoad = new JButton("Load from File");
 		btnLoad.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-		btnLoad.setBounds(461, 6, 117, 20);
+		btnLoad.setBounds(648, 6, 117, 20);
 		frmEpsylon.getContentPane().add(btnLoad);
 		
-		JButton btnEvaluate = new JButton("Evaluate");
-		btnEvaluate.setBounds(461, 450, 117, 29);
-		frmEpsylon.getContentPane().add(btnEvaluate);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 31, 572, 184);
+		scrollPane.setBounds(6, 31, 759, 185);
 		frmEpsylon.getContentPane().add(scrollPane);
 		
 		JTextArea inputArea = new JTextArea();
@@ -107,7 +103,7 @@ public class MainWindow {
 	    });
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(6, 254, 572, 184);
+		scrollPane_1.setBounds(6, 254, 759, 308);
 		frmEpsylon.getContentPane().add(scrollPane_1);
 		
 		JTextArea outputArea = new JTextArea();
@@ -125,7 +121,7 @@ public class MainWindow {
 				}
 			}
 		});
-		btnParse.setBounds(240, 450, 117, 29);
+		btnParse.setBounds(425, 574, 117, 29);
 		frmEpsylon.getContentPane().add(btnParse);
 		
 		JButton btnTypecheck = new JButton("Typecheck");
@@ -142,7 +138,24 @@ public class MainWindow {
 				}
 			}
 		});
-		btnTypecheck.setBounds(350, 450, 117, 29);
+		btnTypecheck.setBounds(536, 574, 117, 29);
 		frmEpsylon.getContentPane().add(btnTypecheck);
+		
+		JButton btnEvaluate = new JButton("Evaluate");
+		btnEvaluate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (parsedTree == null) {
+					btnParse.doClick();
+				}
+				
+				try {
+					outputArea.append("Evaluator: " + Main.evaluate(parsedTree).toString() + ".\n");
+				} catch (RuntimeException e2) {
+					outputArea.append("Evaluation Error: " + e2.getMessage() + "\n");
+				}
+			}
+		});
+		btnEvaluate.setBounds(648, 574, 117, 29);
+		frmEpsylon.getContentPane().add(btnEvaluate);
 	}
 }

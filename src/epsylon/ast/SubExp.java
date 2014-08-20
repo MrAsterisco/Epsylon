@@ -12,4 +12,9 @@ public class SubExp extends AbsOpExp {
 		return v.visit(this);
 	}
 	
+	@Override
+	public String toString() {
+		return "SUBTRACTION";
+	}
+	
 }

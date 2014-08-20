@@ -12,4 +12,9 @@ public class LthExp extends AbsOpExp {
 		return v.visit(this);
 	}
 	
+	@Override
+	public String toString() {
+		return "LESS";
+	}
+	
 }

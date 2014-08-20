@@ -11,5 +11,10 @@ public class NotExp extends AbsOpExp {
 	public <T>T accept(Visitor<T> v) {
 		return v.visit(this);
 	}
+	
+	@Override
+	public String toString() {
+		return "NOT";
+	}
 
 }

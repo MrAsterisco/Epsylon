@@ -198,8 +198,8 @@ public class Typechecker implements Visitor<Type> {
 		
 		Ident ident = (Ident)children.next();
 		
-		Exp e1 = children.next();
 		Exp set = children.next();
+		Exp e1 = children.next();
 		
 		Type type = set.accept(this);
 		if (!type.equals(new SetType())) {

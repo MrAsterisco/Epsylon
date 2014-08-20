@@ -12,5 +12,10 @@ public class AllSetExp extends AbsOpExp {
 	public <T>T accept(Visitor<T> v) {
 		return v.visit(this);
 	}
+	
+	@Override
+	public String toString() {
+		return "{ALL}";
+	}
 
 }

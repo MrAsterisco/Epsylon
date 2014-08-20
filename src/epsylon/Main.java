@@ -2,7 +2,9 @@ package epsylon;
 
 import epsylon.typecheck.Typechecker;
 import epsylon.ui.MainWindow;
+import epsylon.evaluate.Evaluator;
 import epsylon.interfaces.Type;
+import epsylon.interfaces.Value;
 import epsylon.parser.Parser;
 import epsylon.ast.Node;
 
@@ -59,16 +61,8 @@ public class Main {
 		return typechecker.typecheck(tree);
 	}
 	
-	public static String evaulate(String input) {
-		return null;
-	}
-	
-	private static void presentError(String message) {
-		if (!useUI) {
-			System.out.println("ERROR: " + message);
-		}
-		else {
-			
-		}
+	public static Value evaluate(Node tree) {
+		Evaluator evaluator = new Evaluator();
+		return evaluator.evaluate(tree);
 	}
 }
