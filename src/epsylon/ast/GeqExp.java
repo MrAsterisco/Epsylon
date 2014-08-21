@@ -3,7 +3,7 @@ package epsylon.ast;
 import epsylon.interfaces.*;
 
 /**
- * Represents a mathematical comparison (Greater Than) in the Abstract Syntax Tree.
+ * Represents a mathematical comparison (Greater Than or Equal To) in the Abstract Syntax Tree.
  * 
  * @author Alessio Moiso
  * @version 1.0
@@ -31,7 +31,7 @@ public class GeqExp extends AbsOpExp {
 	}
 	
 	/**
-	 * Represents an Greater Than expression as a string.
+	 * Represents a Greater Than expression as a string.
 	 * 
 	 * @return The string representation of the Greater Than expression.
 	 */
