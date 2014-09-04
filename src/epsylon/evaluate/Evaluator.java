@@ -215,14 +215,11 @@ public class Evaluator implements Visitor<Value> {
 		Value set = children.next().accept(this);
 		Set<Value> hashSet = ((SetValue) set).getValue();
 		
-		Value bool = children.next().accept(this);
-		
-		if (!(bool instanceof BoolValue)) {
-			throw new EvaluationException(exp, set, bool);
-		}
+		AbsOpExp condition = (AbsOpExp)children.next();
 		
 		for (Value value : hashSet) {
 			environment.put(ident, value);
+			Value bool = condition.accept(this);
 			if (((BoolValue) bool).getValue()) {
 				environment.popCurrentLevel();
 				
@@ -247,7 +244,7 @@ public class Evaluator implements Visitor<Value> {
 		Value set = children.next().accept(this);
 		Set<Value> hashSet = ((SetValue) set).getValue();
 		
-		AbsOpExp formula = (AbsOpExp) children.next();
+		AbsOpExp formula = (AbsOpExp)children.next();
 		
 		for (Value value : hashSet) {
 			environment.put(ident, value);

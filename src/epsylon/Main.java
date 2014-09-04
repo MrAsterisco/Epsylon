@@ -94,7 +94,7 @@ public class Main {
 			return;
 		}
 		
-		System.out.println("Epsylon version 1.0(20140820)\n");
+		System.out.println("Epsylon version 1.0(20140904)\n");
 		
 		String result = null;
 		String input = null;
@@ -111,8 +111,8 @@ public class Main {
 			System.out.println("Please type an input below:\n");
 			Scanner scanner = new Scanner(System.in);
 			StringBuilder builder = new StringBuilder();
-			while (scanner.hasNext()) {
-				builder.append(scanner.next());
+			while (scanner.hasNextLine()) {
+				builder.append(scanner.nextLine());
 			}
 			scanner.close();
 			input = builder.toString();

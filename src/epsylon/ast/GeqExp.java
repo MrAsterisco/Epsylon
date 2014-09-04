@@ -11,7 +11,7 @@ import epsylon.interfaces.*;
 public class GeqExp extends AbsOpExp {
 
 	/**
-	 * Instantiates a new Greater Than operation.
+	 * Instantiates a new Greater Than or Equal To operation.
 	 * 
 	 * @param leftExp The left value.
 	 * @param rightExp The right value.

@@ -221,13 +221,17 @@ public class Typechecker implements Visitor<Type> {
 
 	@Override
 	public Type visit(GeqExp exp) {
-		checkAllChildrenConformToType(exp);
+		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
+			throw new TypecheckException("Expected INT or SET but found BOOL.");
+		}
 		return PrimType.BOOL;
 	}
 
 	@Override
 	public Type visit(GthExp exp) {
-		checkAllChildrenConformToType(exp);
+		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
+			throw new TypecheckException("Expected INT or SET but found BOOL.");
+		}
 		return PrimType.BOOL;
 	}
 
@@ -273,16 +277,17 @@ public class Typechecker implements Visitor<Type> {
 
 	@Override
 	public Type visit(LeqExp exp) {
-		checkAllChildrenConformToType(exp);
+		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
+			throw new TypecheckException("Expected INT or SET but found BOOL.");
+		}
 		return PrimType.BOOL;
 	}
 
 	@Override
 	public Type visit(LthExp exp) {
 		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
-			throw new TypecheckException("Compare functions support " + PrimType.BOOL.toString() + " or " + PrimType.INT.toString());
+			throw new TypecheckException("Expected INT or SET but found BOOL.");
 		}
-		
 		return PrimType.BOOL;
 	}
 
