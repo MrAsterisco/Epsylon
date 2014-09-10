@@ -65,10 +65,10 @@ public class Parser {
 	private Exp parseOr() {
 		Exp exp1 = parseAnd();
 		
-		if (tokenizer.tokenType() == TokenType.OR) {
+		while (tokenizer.tokenType() == TokenType.OR) {
 			tokenizer.next();
-			Exp exp2 = parseOr();
-			return new OrExp(exp1, exp2);
+			Exp exp2 = parseAnd();
+			exp1 = new OrExp(exp1, exp2);
 		}
 		
 		return exp1;
@@ -77,10 +77,10 @@ public class Parser {
 	private Exp parseAnd() {
 		Exp exp1 = parseContains();
 		
-		if (tokenizer.tokenType() == TokenType.AND) {
+		while (tokenizer.tokenType() == TokenType.AND) {
 			tokenizer.next();
-			Exp exp2 = parseAnd();
-			return new AndExp(exp1, exp2);
+			Exp exp2 = parseContains();
+			exp1 = new AndExp(exp1, exp2);
 		}
 		
 		return exp1;
@@ -159,33 +159,39 @@ public class Parser {
 		
 		Exp exp2 = null;
 		
-		switch (tokenizer.tokenType()) {
-		case ADD:
-			tokenizer.next();
-			exp2 = parseOper();
-			
-			return new AddExp(exp1, exp2);
-			
-		case STRICT_OR:
-			tokenizer.next();
-			exp2 = parseOper();
-			
-			return new StrictOrExp(exp1, exp2);
-			
-		case BACKSLASH:
-			tokenizer.next();
-			exp2 = parseOper();
-			
-			return new BackslashExp(exp1, exp2);
-			
-		case SUB:
-			tokenizer.next();
-			exp2 = parseOper();
-			
-			return new SubExp(exp1, exp2);
+		while (tokenizer.tokenType() == TokenType.ADD || tokenizer.tokenType() == TokenType.STRICT_OR || tokenizer.tokenType() == TokenType.BACKSLASH || tokenizer.tokenType() == TokenType.SUB) {
+			switch (tokenizer.tokenType()) {
+			case ADD:
+				tokenizer.next();
+				exp2 = parseMoreOper();
+				
+				exp1 = new AddExp(exp1, exp2);
+				break;
+				
+			case STRICT_OR:
+				tokenizer.next();
+				exp2 = parseMoreOper();
+				
+				exp1 = new StrictOrExp(exp1, exp2);
+				break;
+				
+			case BACKSLASH:
+				tokenizer.next();
+				exp2 = parseMoreOper();
+				
+				exp1 = new BackslashExp(exp1, exp2);
+				break;
+				
+			case SUB:
+				tokenizer.next();
+				exp2 = parseMoreOper();
+				
+				exp1 = new SubExp(exp1, exp2);
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
 		}
 		
 		return exp1;
@@ -196,33 +202,39 @@ public class Parser {
 		
 		Exp exp2 = null;
 		
-		switch (tokenizer.tokenType()) {
-		case MUL:
-			tokenizer.next();
-			exp2 = parseMoreOper();
-			
-			return new MulExp(exp1, exp2);
-			
-		case DIV:
-			tokenizer.next();
-			exp2 = parseMoreOper();
-			
-			return new DivExp(exp1, exp2);
-			
-		case PERC:
-			tokenizer.next();
-			exp2 = parseMoreOper();
-			
-			return new ModExp(exp1, exp2);
-			
-		case STRICT_AND:
-			tokenizer.next();
-			exp2 = parseMoreOper();
-			
-			return new StrictAndExp(exp1, exp2);
+		while (tokenizer.tokenType() == TokenType.MUL || tokenizer.tokenType() == TokenType.DIV || tokenizer.tokenType() == TokenType.PERC || tokenizer.tokenType() == TokenType.STRICT_AND) {
+			switch (tokenizer.tokenType()) {
+			case MUL:
+				tokenizer.next();
+				exp2 = parseUnaOper();
+				
+				exp1 = new MulExp(exp1, exp2);
+				break;
+				
+			case DIV:
+				tokenizer.next();
+				exp2 = parseUnaOper();
+				
+				exp1 = new DivExp(exp1, exp2);
+				break;
+				
+			case PERC:
+				tokenizer.next();
+				exp2 = parseUnaOper();
+				
+				exp1 = new ModExp(exp1, exp2);
+				break;
+				
+			case STRICT_AND:
+				tokenizer.next();
+				exp2 = parseUnaOper();
+				
+				exp1 = new StrictAndExp(exp1, exp2);
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
 		}
 		
 		return exp1;

@@ -402,7 +402,7 @@ public class Evaluator implements Visitor<Value> {
 		}
 		
 		if (((IntValue)val2).getValue() == 0) {
-			throw new EvaluationException("Math division by zero is undefined.");
+			throw new EvaluationException("Mathematical division by zero is undefined.");
 		}
 		
 		return new IntValue(((IntValue) val).getValue().intValue() % ((IntValue) val2).getValue().intValue());

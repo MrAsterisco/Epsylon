@@ -2,6 +2,13 @@ package epsylon.interfaces;
 
 import epsylon.ast.*;
 
+/**
+ * Defines the interface that all Visitors must comply with.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ * @param <T> A generic type, defined by the Visitor itself.
+ */
 public interface Visitor<T> {
 	
 	T visit(AddExp exp);

@@ -13,7 +13,7 @@ import epsylon.interfaces.Value;
 public class DynamicEnvironment extends GenericEnvironment<Value> {
 
 	/**
-	 * If not already present, puts an Ident with its value into the Environment.
+	 * If not already present, puts an Identifier with its value into the Environment.
 	 *
 	 * @param id The identifier.
 	 * @param value The associated value.

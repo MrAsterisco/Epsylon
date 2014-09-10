@@ -2,14 +2,30 @@ package epsylon.evaluate;
 
 import epsylon.interfaces.Value;
 
+/**
+ * Wraps a boolean value into a Evaluation-compatible class.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public class BoolValue implements Value {
 	
 	private Boolean value;
 	
+	/**
+	 * Instantiates a new BoolValue with its intrinsic value.
+	 * 
+	 * @param value A boolean value.
+	 */
 	public BoolValue(Boolean value) {
 		this.value = value;
 	}
 
+	/**
+	 * Gets the intrinsic value.
+	 * 
+	 * @return A boolean value.
+	 */
 	@Override
 	public Boolean getValue() {
 		return this.value;

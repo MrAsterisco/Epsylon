@@ -2,14 +2,30 @@ package epsylon.evaluate;
 
 import epsylon.interfaces.Value;
 
+/**
+ * Wraps an integer value into a Evaluation-compatible class.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public class IntValue implements Value {
 	
 	private Integer value;
 	
+	/**
+	 * Instantiates a new IntValue with its intrinsic value.
+	 * 
+	 * @param value An integer value.
+	 */
 	public IntValue(Integer value) {
 		this.value = value;
 	}
 
+	/**
+	 * Gets the intrinsic value.
+	 * 
+	 * @return An integer value.
+	 */
 	@Override
 	public Integer getValue() {
 		return this.value;

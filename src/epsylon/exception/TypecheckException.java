@@ -2,6 +2,12 @@ package epsylon.exception;
 
 import epsylon.interfaces.Type;
 
+/**
+ * Represents an exception thrown by the Typechecker.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public class TypecheckException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

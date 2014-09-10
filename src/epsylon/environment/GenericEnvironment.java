@@ -6,6 +6,14 @@ import java.util.Map;
 
 import epsylon.ast.Ident;
 
+/**
+ * Represents an abstract environment, implementing all the common methods from the Environment interface.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ * @see epsylon.environment.Environment
+ * @param <T> A type to which all the items contained into the Environment should belong.
+ */
 public abstract class GenericEnvironment<T> implements Environment<T> {
 
 	private LinkedList<Map<Ident, T>> localEnvs = new LinkedList<>();

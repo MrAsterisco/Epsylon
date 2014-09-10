@@ -3,6 +3,12 @@ package epsylon.exception;
 import epsylon.ast.AbsOpExp;
 import epsylon.interfaces.Value;
 
+/**
+ * Represents an exception thrown by the Evaluator.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public class EvaluationException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

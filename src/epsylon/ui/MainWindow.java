@@ -25,6 +25,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 
+/**
+ * Defines the Epsylon Graphical User Interface.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public class MainWindow {
 
 	private JFrame frmEpsylon;
@@ -117,6 +123,7 @@ public class MainWindow {
 					parsedTree = Main.parse(inputArea.getText());
 					outputArea.append("Parser: operation completed successfully.\n");
 				} catch (RuntimeException e2) {
+					e2.printStackTrace();
 					outputArea.append("Parse Error: " + e2.getMessage() + "\n");
 					parsedTree = null;
 				}

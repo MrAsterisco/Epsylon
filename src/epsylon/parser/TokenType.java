@@ -1,5 +1,11 @@
 package epsylon.parser;
 
+/**
+ * Defines all the supported token types.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public enum TokenType {
 	NUM_LIT, 
 	IDENT, 

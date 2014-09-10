@@ -11,8 +11,13 @@ import java.util.regex.Pattern;
 import epsylon.exception.UnknownTokenException;
 import static epsylon.parser.TokenType.*;
 
+/**
+ * Divides an arbitrary string into tokens.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public class Tokenizer implements Iterator<TokenType> {
-	// symbol table mapping keywords and symbols to their token types
 	private static Map<String, TokenType> map = new HashMap<>();
 	static {
 		map.put("not", NOT);
@@ -51,15 +56,20 @@ public class Tokenizer implements Iterator<TokenType> {
 		map.put("true", BOOL_LIT);
 		map.put("false", BOOL_LIT);
 }
+
+	private Scanner scanner;
 	
+	/**
+	 * Instantiates a new Tokenizer from a string.
+	 * 
+	 * @param inputString The string to be tokenized.
+	 */
 	public Tokenizer(String inputString) {
 		this.scanner = new Scanner(inputString);
 	}
 	
-	// reads the standard input and skip white spaces
-	private Scanner scanner;
-	// tries to match a sequence of tokens
 	final private Matcher matcher = Pattern.compile("(?<BOOL>(true|false))|not|-|#|\\(|\\)|\\{|\\}|,|all|in|:|forall|exists|\\[|\\]|\\.\\.|and|or|implies|contains|\\+|\\*|/|\\\\|%|<=|<|>=|>|==|!=|&|\\||(?<IDENT>[a-zA-Z][a-zA-Z0-9]*)|(?<NUM>[0-9]+)").matcher("");
+	
 	// the (inclusive) index of the first character of the portion of region
 	// that still has to be matched
 	private int start;
@@ -72,7 +82,12 @@ public class Tokenizer implements Iterator<TokenType> {
 	// the Boolean value of the token, if the token type is BOOL
 	private boolean boolValue;
 
-	// returns the type of the matched token
+	/**
+	 * Gets the type of the matched token.
+	 * 
+	 * @param st A token.
+	 * @return The TokenType of this token.
+	 */
 	private TokenType type(String st) {
 		if (matcher.group("NUM") != null) {
 			intValue = Integer.parseInt(st);
@@ -80,7 +95,6 @@ public class Tokenizer implements Iterator<TokenType> {
 		}
 		if (matcher.group("IDENT") != null && matcher.group("IDENT").length() > 0)
 			return tokenType = IDENT;
-		// the token must necessarily be in the symbol table
 		tokenType = map.get(st);
 		assert tokenType != null;
 		if (tokenType == BOOL_LIT)
@@ -148,11 +162,6 @@ public class Tokenizer implements Iterator<TokenType> {
 		if (tokenType != BOOL_LIT)
 			throw new IllegalStateException("boolValue called on a non-bool expression.");
 		return boolValue;
-	}
-
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
 	}
 
 }
