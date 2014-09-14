@@ -40,6 +40,17 @@ import epsylon.interfaces.Exp;
 import epsylon.interfaces.Type;
 import epsylon.interfaces.Visitor;
 
+/**
+ * The typechecker checks that all the types given to each function in the AST are correct.
+ * The AST must have been parsed by a Parser object.
+ * 
+ * If a type does not conform to the language syntax rules, a TypecheckException is thrown,
+ * 
+ * The typechecker uses the default constructor. Call typecheck(Node) to start typechecking.
+ * 
+ * @author Alessio Moiso
+ * @version 1.0
+ */
 public class Typechecker implements Visitor<Type> {
 
 	private StaticEnvironment environment;
@@ -48,10 +59,17 @@ public class Typechecker implements Visitor<Type> {
 		environment = new StaticEnvironment();
 	}
 	
+	/**
+	 * Starts typechecking the given tree.
+	 * 
+	 * @param tree A valid AST.
+	 * @return Return the final redult type of the AST.
+	 */
 	public Type typecheck(Node tree) {
 		return tree.accept(this);
 	}
 	
+	// Checks that all the children of a given type conform to a specified type.
 	private void checkAllChildrenConformToType(AbsOpExp exp, Type requestedType) {
 		for (Iterator<Exp> iterator = exp.getChildren(); iterator.hasNext();) {
 			AbsOpExp child = (AbsOpExp)iterator.next();
@@ -64,6 +82,7 @@ public class Typechecker implements Visitor<Type> {
 		}
 	}
 	
+	// Checks that all the children of a given expression belongs to the same type.
 	private Type checkAllChildrenConformToType(AbsOpExp exp) {
 		Type requestedType = exp.getChildren().next().accept(this);
 		
@@ -72,6 +91,7 @@ public class Typechecker implements Visitor<Type> {
 		return requestedType;
 	}
 	
+	// Validates a AllSet/Exists/Forall expression.
 	private Type checkOperationSet(AbsOpExp exp) {
 		environment.pushNewLevel();
 		
@@ -99,6 +119,7 @@ public class Typechecker implements Visitor<Type> {
 		return innerType;
 	}
 	
+	// Validates a binary operation.
 	private Type checkBinaryOperationSet(AbsOpExp exp) {
 		Iterator<Exp> children = exp.getChildren();
 		
@@ -119,33 +140,39 @@ public class Typechecker implements Visitor<Type> {
 		return set1;
 	}
 	
+	// Validates a mathematical addition.
 	@Override
 	public Type visit(AddExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.INT);
 		return PrimType.INT;
 	}
 
+	// Validates an AllSet expression.
 	@Override
 	public Type visit(AllSetExp exp) {
 		return new SetType(checkOperationSet(exp));
 	}
 
+	// Validates an And expression.
 	@Override
 	public Type visit(AndExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.BOOL);
 		return PrimType.BOOL;
 	}
 
+	// Validates a subtraction between sets.
 	@Override
 	public Type visit(BackslashExp exp) {
 		return checkBinaryOperationSet(exp); 
 	}
 
+	// Returns the type of a bool.
 	@Override
 	public Type visit(BoolLit exp) {
 		return PrimType.BOOL;
 	}
 
+	// Validates a Contains expression.
 	@Override
 	public Type visit(ContainsExp exp) {
 		Iterator<Exp> children = exp.getChildren();
@@ -166,30 +193,35 @@ public class Typechecker implements Visitor<Type> {
 		return PrimType.BOOL;
 	}
 
+	// Validates a mathematical division.
 	@Override
 	public Type visit(DivExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.INT);
 		return PrimType.INT;
 	}
 
+	// Validates an equality operation.
 	@Override
 	public Type visit(EqExp exp) {
 		checkAllChildrenConformToType(exp);
 		return PrimType.BOOL;
 	}
 
+	// Validates an Exists expression.
 	@Override
 	public Type visit(ExistsExp exp) {
 		checkOperationSet(exp);
 		return PrimType.BOOL;
 	}
 
+	// Validates a Forall expression
 	@Override
 	public Type visit(ForallExp exp) {
 		checkOperationSet(exp);
 		return PrimType.BOOL;
 	}
 
+	// Validates a ForallSet expression.
 	@Override
 	public Type visit(ForallSetExp exp) {
 		environment.pushNewLevel();
@@ -219,6 +251,7 @@ public class Typechecker implements Visitor<Type> {
 		return new SetType(innerType);
 	}
 
+	// Validates a Greater Than expression.
 	@Override
 	public Type visit(GeqExp exp) {
 		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
@@ -227,6 +260,7 @@ public class Typechecker implements Visitor<Type> {
 		return PrimType.BOOL;
 	}
 
+	// Validates a Greater Than or Equal to expression.
 	@Override
 	public Type visit(GthExp exp) {
 		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
@@ -235,6 +269,7 @@ public class Typechecker implements Visitor<Type> {
 		return PrimType.BOOL;
 	}
 
+	// Validates a cardinality operation.
 	@Override
 	public Type visit(HashExp exp) {
 		Iterator<Exp> children = exp.getChildren();
@@ -247,17 +282,20 @@ public class Typechecker implements Visitor<Type> {
 		return PrimType.INT;
 	}
 
+	// Returns the associated type of an Identifier.
 	@Override
 	public Type visit(Ident exp) {
 		return environment.lookupAndCheck(exp);
 	}
 
+	// Validates an Implies expression.
 	@Override
 	public Type visit(ImpliesExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.BOOL);
 		return PrimType.BOOL;
 	}
 
+	// Validates an Interval.
 	@Override
 	public Type visit(IntervalExp exp) {
 		Iterator<Exp> children = exp.getChildren();
@@ -275,6 +313,7 @@ public class Typechecker implements Visitor<Type> {
 		return new SetType(PrimType.INT);
 	}
 
+	// Validates a Less Than expression.
 	@Override
 	public Type visit(LeqExp exp) {
 		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
@@ -283,6 +322,7 @@ public class Typechecker implements Visitor<Type> {
 		return PrimType.BOOL;
 	}
 
+	// Validates a Less Than or Equal to expression.
 	@Override
 	public Type visit(LthExp exp) {
 		if (checkAllChildrenConformToType(exp).equals(PrimType.BOOL)) {
@@ -291,47 +331,55 @@ public class Typechecker implements Visitor<Type> {
 		return PrimType.BOOL;
 	}
 
+	// Validates a mathematical module.
 	@Override
 	public Type visit(ModExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.INT);
 		return PrimType.INT;
 	}
 
+	// Validates a mathematical multiplication.
 	@Override
 	public Type visit(MulExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.INT);
 		return PrimType.INT;
 	}
 
+	// Validates a negative operation.
 	@Override
 	public Type visit(NegExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.INT);
 		return PrimType.INT;
 	}
 
+	// Validates a Not Equal To expression.
 	@Override
 	public Type visit(NeqExp exp) {
 		checkAllChildrenConformToType(exp);
 		return PrimType.BOOL;
 	}
 
+	// Validates a Not expression.
 	@Override
 	public Type visit(NotExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.BOOL);
 		return PrimType.BOOL;
 	}
 
+	// Returns the type of an Int.
 	@Override
 	public Type visit(NumLit exp) {
 		return PrimType.INT;
 	}
 
+	// Validates an Or expression.
 	@Override
 	public Type visit(OrExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.BOOL);
 		return PrimType.BOOL;
 	}
 
+	// Returns the intrinsic type of a Set.
 	@Override
 	public Type visit(SetExp exp) {
 		Iterator<Exp> children = exp.getChildren();
@@ -353,22 +401,26 @@ public class Typechecker implements Visitor<Type> {
 		return new SetType(firstChildrenType);
 	}
 
+	// Validates an intersection operation.
 	@Override
 	public Type visit(StrictAndExp exp) {
 		return checkBinaryOperationSet(exp);
 	}
 
+	// Validates a union operation.
 	@Override
 	public Type visit(StrictOrExp exp) {
 		return checkBinaryOperationSet(exp);
 	}
 
+	// Validates a mathematical subtraction.
 	@Override
 	public Type visit(SubExp exp) {
 		checkAllChildrenConformToType(exp, PrimType.INT);
 		return PrimType.INT;
 	}
 
+	// Starts visiting the source node.
 	@Override
 	public Type visit(Node node) {
 		return node.getExp().accept(this);

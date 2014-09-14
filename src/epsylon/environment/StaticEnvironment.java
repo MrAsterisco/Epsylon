@@ -16,7 +16,7 @@ public class StaticEnvironment extends GenericEnvironment<Type> {
 	 * If not already present, puts an Identifier with its type into the Environment.
 	 *
 	 * @param id The identifier.
-	 * @param value The associated type.
+	 * @param type The associated type.
 	 * @throws TypecheckException if the Identifier is already present in the Environment.
 	 */
 	@Override
